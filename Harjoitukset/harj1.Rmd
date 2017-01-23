@@ -1,0 +1,136 @@
+---
+title: "Johdaus tekoalyyn harjoitus 1"
+author: "Tuomo Nieminen"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Tehtava 1. Tekoalytutkimus vs. sci-fi
+
+Valitsemani artikkeli on [DeepStack: Expert-Level Artificial Intelligence in No-Limit Poker](https://arxiv.org/abs/1701.01724).
+
+### Minkatyyppista kysymysta/ongelmaa kasitellaan?
+
+Tekoaly ja pelit. Ihminen on jo havinnyt koneelle useissa monimutkaisissa peleissa kuten Shakki,  Go ja Heads up Limit Holdem pokeri. Poripeleissa on useita variantteja ja niiden monimutkaisuus vaihtelee suuresti. Eras yksinkertainen pokerivariantti (heads up limit holdem) on jo kaytannossa ratkaistu eli ihminen ei voi enaa voittaa konetta. Artikkeli kasittelee huomattavasti monimutkaisemman, No Limit Texas Holdem -pelimuodon, optimaalista pelaamista.
+
+### Sopiiko aihe taman kurssin aihepiireihin?
+
+Aihe sopii kurssin aihepiiriin hyvin, silla pelit ovat merkittava osa tekoalytutkimusta.
+
+### Minkalaisen vaikutelman artikkeli antaa (nykyisesta) tekoalytutkimuksesta?
+
+Syvat neuroverkot ovat olleet erittain suosittuja taman vuosikymmenen puolella ja tamankin artikkelin kasittelema algoritmi hyodyntaa niita. Artikkeli vahvistaa kasitysta siita, etta tilastollisiin menetelmiin pohjautuvat machine learning algoritmit ovat tekoalytutkimuksessa erittain keskeisessa roolissa.
+
+### Minkalaisia opintoja tarvitaan, jotta lukemasi artikkelin voi ymmartaa?
+
+Koneoppimisen perusteet: tilastotiedetta ja tietojenkasittelytiedetta (ja tietysti matematiikkaa).
+
+### Kuinka realistisilta artikkelin perusteella vaikuttavat sci-fi kirjallisuuden ja elokuvien uhkakuvat, joissa teknologia ja tekoaly kaantyvat ihmiskuntaa vastaan kuten esimerkiksi Terminator- elokuvissa?
+
+Tekoaly perustuu algoritmeihin. Algoritmi on ihmisen kirjoittama sarja ohjeita, joiden perusteella esimerkiksi kone tai ohjelma toimii. Niin kauan, kun koneen toiminta rajataan selkeasti (kuten tassa artikkelissa pokerin pelaamiseen), eivat scifi-uhkakuvat kaytannossa voi toteutua. Toisaalta [Google on jo kehittänyt tekoalysoftaa, joka pystyy kehittamaan tekoalysoftaa](https://www.technologyreview.com/s/603381/ai-software-learns-to-make-ai-software/).
+
+# Tehtava 2. Etsinta: leveys- ja syvyys-suuntainen haku (2 pistetta)
+
+![](tehtava1.2_verkko.png)
+
+Hakualgoritmi
+
+<pre>
+1. Solmulista = [Alkusolmu]
+2. Käsitellyt = [ ]
+3. while Solmulista not empty
+4.  Solmu = EKA(Solmulista)
+5.  Solmulista = LOPUT(Solmulista)
+6.  if Solmu not in Käsitellyt
+7.    Käsitellyt = Käsitellyt + [Solmu]
+8.    if MAALI(Solmu) return("ratkaisu", Solmu)
+9.      Solmulista = LISÄÄ(NAAPURIT(Solmu),Solmulista)
+</pre>
+
+### Esita verkon leveyssuuntainen lapikaynti alkaen solmusta A, kun maalisolmua on H
+
+1. Solmulista = [A] // Solmulistassa on aluksi alkusolmu
+2. Solmulista = [] // LOPUT(Solmulista) on tyhja joukko
+3. Solmulista = [B] //A:n ainoa naapuri on B
+4. Solmulista = [] // LOPUT on taas tyhja joukko
+5. Solmulista = [C, F] // B:lla on kaksi uutta naapuria
+6. Solmulista = [F] // kasitellaan ensin C, loput on F
+7. Solmulista = [F, E, I] // C:lla on kaksi uutta naapuria
+8. Solmulista = [E, I] // kasitellaan F
+9. Solmulista = [E, I, D, G] //F:lla on kaksi naapuria
+10. Solmulista = [I, D, G] // kasitellaan E
+11. Solmulista = [I, D, G] // E:lla ei ole naapureita
+12. Solmulista = [D, G] // kasitellaan I
+13. Solmulista = [D, G] // I:lla ei ole naapureita
+14. Solmulista = [G] // kasitellaan D
+15. Solmulista = [G] // D:lla ei ole naapureita
+16. Solmulista = [] // kasitellaan G
+17. Solmulista = [H] // G:lla on uusi naapuri on H
+18. Solmulista = [] // kasitellaan H
+19. Solmulista = [] // Solmulista on tyhja joten while loop paattyy
+
+### Esita verkon syvyyssuuntainen lapikaynti alkaen solmusta A, kun maalisolmua on H
+
+1. Solmulista = [A] // Solmulistassa on aluksi alkusolmu
+2. Solmulista = [] // LOPUT(Solmulista) on tyhja joukku
+3. Solmulista = [B] //A:n ainoa naapuri on B
+4. Solmulista = [] // LOPUT on taas tyhja joukko
+5. Solmulista = [C, F] // B:lla on kaksi uutta naapuria
+6. Solmulista = [F] // kasitellaan ensin C, loput on F
+7. Solmulista = [E, I, F] // C:lla on kaksi uutta naapuria
+8. Solmulista = [I, F] // kasitellaan E
+9. Solmulista = [I, F] //E:lla ei ole uusia naapureita
+10. Solmulista = [F] // kasitellaan I
+11. Solmulista = [F] // I:lla ei ole uusia naapureita
+12. Solmulista = [] // kasitellaan F
+13. Solmulista = [D, G] // F:lla on kaksi uutta naapuria
+14. Solmulista = [G] // kasitellaan D
+15. Solmulista = [G] //D:lla ei ole uusia naapureita
+16. Solmulista = [] // kasitellaan G
+17. Solmulista = [H] // G:lla on uusi naapuri H
+18. Solmulista = [] // kasitellaan H
+19. Solmulista = [] // Solmulista on tyhja joten while loop paattyy
+
+
+# Tehtava 3. Etsinta ongelmanratkaisuna: susi, lammas ja kaali
+
+Seuraavat ehdot ovat voimassa: 
+
+1. paimen voi ylittaa joen mukanaan joko susi, lammas tai kaali.
+1. Jos paimen jattaa suden ja lampaan vartioimatta samaan paikkaan, susi syo lampaa suihinsa.
+2. Jos paimen jattaa lampaa ja kaalin vartioimatta samaan paikkaan, lammas syo kaalin suihinsa.
+
+Merkitään seuraavasti:
+
+- `s` = susi
+- `l` = lammas
+- `k` = kaali
+- `p` = paimen
+- `-` = joki
+
+Alussa kaikki kuljetettavat ovat joen vasemmalla puolella eli alkutila on `pslk-`. Ainoa mahdollinen siirtyma ilman syomisia on tilaan `sk-pl`. Tavoitteena on loytaa reitti tilaan `-pslk`.
+
+
+### Tilasiirtymakaavio
+
+`pslk-` -> `sk-pl` -> `psk-l` ->  `k-psl`(1) TAI `s-pkl`(2)  
+(1) `k-psl` -> `pkl-s` -> `l-pks` -> `pl-ks` -> `-plks` (MAALI)  
+(2) `s-pkl` -> `psl-k` -> `l-pks` -> `pl-ks` -> `-plks` (MAALI)
+
+### Ratkaisu verkon avulla
+
+Esitetaan ongelma verkkona. Alussa kaikki kuljetettavat ovat joen vasemmalla puolella eli alkutila on `pslk-`. Kohdetila on `-pslk`. Tilan vierustiloja ovat kaikki mahdolliset yhden kuljetuksen tilat eli esimerkiksi lähtötila:
+
+`VIERUS(pslk-) = slk-p, sl-pk, sk-pl, lk-ps`
+
+Lähtötilan vierustiloista tilat `sl-pk` ja `lk-ps` ovat *absorvoivia*  tiloja: Niista ei voida siirtya muihin tiloihin (eli niilla ei ole vierustiloja). Tämän formalisoinnin avulla reitti kohdetilaan voidaan etsia esimerkiksi leveys- tai syvyyssuuntaisella haulla.
+
+***
+
+tuomo.a.nieminen@helsinki.fi  
+<br>  
